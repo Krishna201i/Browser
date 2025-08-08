@@ -405,10 +405,23 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
               </div>
             </div>
 
-            {/* Simple Search Bar with Homepage Theme */}
-            <div className="w-full max-w-2xl mb-6 relative">
-              <div className="search-bar rounded-full p-3 flex items-center gap-3 shadow-2xl bg-black/30 backdrop-blur-md border border-purple-500/30">
-                <div className="flex items-center gap-4">
+            {/* Enhanced Search Bar with Modern Design */}
+            <div className="w-full max-w-5xl mx-auto mb-8 relative group">
+              {/* Background gradient glow effect */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse"></div>
+
+              {/* Animated border gradient */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-30 blur-sm transition-all duration-500"></div>
+
+              <div className="relative search-bar-glass rounded-3xl p-6 transition-all duration-500 hover:scale-[1.02] sm:p-4">
+                {/* Search Input Section - Responsive Layout */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                  {/* Search Icon - Hidden on mobile */}
+                  <div className="hidden sm:flex flex-shrink-0 p-3 bg-gradient-to-r from-cyan-400/20 to-purple-400/20 rounded-2xl transition-all duration-300 group-hover:from-cyan-400/30 group-hover:to-purple-400/30">
+                    <Search className="h-6 w-6 text-white/90" />
+                  </div>
+
+                  {/* Input Field */}
                   <div className="flex-1 relative">
                     <Input
                       value={searchQuery}
@@ -422,28 +435,42 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
                           ? "Search with AI across multiple engines..."
                           : "Search the web or enter URL..."
                       }
-                      className="text-lg h-14 px-6 border-0 bg-transparent focus:ring-0 placeholder:text-gray-500"
+                      className="text-xl h-16 px-6 border-0 bg-white/5 rounded-2xl focus:bg-white/15 focus:ring-2 focus:ring-purple-400/50 placeholder:text-white/50 text-white font-medium transition-all duration-300 backdrop-blur-sm hover:bg-white/8 focus:scale-[1.01] sm:text-lg"
                     />
+
+                    {/* AI Enhancement Badge */}
                     {selectedEngine === "meta" && (
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Zap className="h-3 w-3 text-purple-500" />
+                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden sm:block">
+                        <div className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1 rounded-full text-xs text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                          <Zap className="h-3 w-3 animate-pulse" />
                           <span>AI Enhanced</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Mobile AI Enhancement Badge */}
+                    {selectedEngine === "meta" && (
+                      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 block sm:hidden">
+                        <div className="flex items-center gap-1 bg-gradient-to-r from-purple-500 to-pink-500 px-2 py-1 rounded-full text-xs text-white font-medium shadow-lg">
+                          <Zap className="h-3 w-3 animate-pulse" />
+                          <span className="hidden xs:inline">AI</span>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-3 self-stretch sm:self-auto">
+                    {/* Voice Search Button */}
                     <Button
                       size="icon"
                       variant="ghost"
                       onClick={handleVoiceSearch}
-                      className={`h-12 w-12 rounded-full transition-all duration-300 ${
+                      className={`h-14 w-14 sm:h-14 sm:w-14 rounded-2xl transition-all duration-300 border-2 backdrop-blur-sm ${
                         voice.isListening
-                          ? "text-red-500 animate-pulse bg-red-50 shadow-lg"
-                          : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-                      } ${voice.confidence > 0.8 ? "text-green-500 bg-green-50" : ""}`}
+                          ? "text-red-400 animate-pulse bg-red-500/20 border-red-400/50 shadow-lg shadow-red-500/25"
+                          : "text-white/80 hover:text-white hover:bg-white/10 border-white/20 hover:border-white/40 hover:scale-105"
+                      } ${voice.confidence > 0.8 ? "text-green-400 bg-green-500/20 border-green-400/50" : ""}`}
                       disabled={!voice.isSupported}
                       title={
                         voice.isSupported
@@ -451,18 +478,77 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
                           : "Voice search not supported"
                       }
                     >
-                      <Mic className="h-5 w-5" />
+                      <Mic className="h-5 w-5 sm:h-6 sm:w-6" />
                     </Button>
+
+                    {/* Search Button */}
                     <Button
                       onClick={() => handleSearch()}
-                      className="h-12 px-8 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      className={`h-14 px-6 sm:px-8 rounded-2xl font-semibold text-base sm:text-lg shadow-xl transition-all duration-300 transform backdrop-blur-sm flex-1 sm:flex-none ${
+                        searchQuery.trim()
+                          ? "bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 border-0"
+                          : "bg-white/10 text-white/50 border border-white/20 cursor-not-allowed"
+                      }`}
                       disabled={!searchQuery.trim()}
                     >
-                      <Search className="h-5 w-5 mr-2" />
-                      Search
+                      <Search className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+                      <span className="hidden xs:inline">Search</span>
+                      <span className="xs:hidden">Go</span>
                     </Button>
                   </div>
                 </div>
+
+                {/* Search Engine Pills */}
+                {selectedEngine !== "meta" && (
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <div className="flex gap-2 flex-wrap justify-center">
+                      {searchEngines
+                        .filter((engine) => engine.id !== "meta")
+                        .map((engine) => (
+                          <Button
+                            key={engine.id}
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setSelectedEngine(engine.id)}
+                            className={`rounded-full px-4 py-2 transition-all duration-200 border ${
+                              selectedEngine === engine.id
+                                ? "bg-white/20 text-white border-white/40 shadow-lg"
+                                : "text-white/70 hover:text-white hover:bg-white/10 border-white/20 hover:border-white/30"
+                            }`}
+                          >
+                            <div
+                              className={`w-2 h-2 rounded-full ${engine.color} mr-2 opacity-80`}
+                            ></div>
+                            {engine.name}
+                          </Button>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* AI Search Sources */}
+                {selectedEngine === "meta" && (
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <div className="flex items-center justify-center gap-6 text-sm">
+                      <div className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
+                        <BookOpen className="h-4 w-4 text-orange-400" />
+                        <span>Wikipedia</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
+                        <Shield className="h-4 w-4 text-orange-500" />
+                        <span>Brave</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
+                        <Globe className="h-4 w-4 text-green-400" />
+                        <span>DuckDuckGo</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
+                        <Search className="h-4 w-4 text-blue-400" />
+                        <span>Google</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Search Engine Options (for traditional search) */}
                 {selectedEngine !== "meta" && (
@@ -518,45 +604,55 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
               </div>
             </div>
 
-            {/* Search Suggestions */}
+            {/* Enhanced Search Suggestions */}
             {showSuggestions && searchSuggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border max-h-48 overflow-y-auto z-50">
+              <div className="absolute top-full left-0 right-0 mt-4 bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20 max-h-64 overflow-y-auto z-50">
                 {searchSuggestions.slice(0, 6).map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => handleSearch(suggestion)}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-3 border-b border-gray-100 last:border-b-0"
+                    className="w-full text-left px-6 py-4 hover:bg-white/10 flex items-center gap-4 border-b border-white/10 last:border-b-0 transition-all duration-200 group"
                   >
-                    <Search className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">{suggestion}</span>
+                    <div className="p-2 bg-white/10 rounded-xl group-hover:bg-white/20 transition-colors">
+                      <Search className="h-4 w-4 text-white/70 group-hover:text-white" />
+                    </div>
+                    <span className="text-white/80 group-hover:text-white font-medium">
+                      {suggestion}
+                    </span>
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Advanced Voice Recognition Status */}
+            {/* Enhanced Voice Recognition Status */}
             {voice.error && (
-              <div className="absolute top-full left-0 right-0 mt-2 text-red-400 text-sm text-center bg-white/95 rounded-lg p-3 shadow-lg border border-red-200">
-                {voice.error}
+              <div className="absolute top-full left-0 right-0 mt-4 text-red-300 text-sm text-center bg-red-500/20 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-red-400/30">
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                  <span className="font-medium">{voice.error}</span>
+                </div>
               </div>
             )}
 
             {voice.isListening && (
-              <div className="absolute top-full left-0 right-0 mt-2 text-blue-600 text-sm text-center bg-white/95 rounded-lg p-3 animate-pulse shadow-lg border border-blue-200">
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                  <span>
+              <div className="absolute top-full left-0 right-0 mt-4 text-white text-sm text-center bg-blue-500/20 backdrop-blur-xl rounded-2xl p-4 animate-pulse shadow-xl border border-blue-400/30">
+                <div className="flex items-center justify-center gap-3">
+                  <div className="relative">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <div className="absolute inset-0 w-3 h-3 bg-red-500 rounded-full animate-ping opacity-30"></div>
+                  </div>
+                  <span className="font-medium">
                     🎤 Listening in {voice.language.split("-")[0].toUpperCase()}
                     ...
                   </span>
                 </div>
                 {voice.interimResults && (
-                  <div className="mt-2 text-gray-600 italic">
+                  <div className="mt-3 text-white/80 italic font-medium bg-white/10 rounded-xl p-2">
                     "{voice.interimResults}"
                   </div>
                 )}
                 {voice.detectedCommand && (
-                  <div className="mt-1 text-green-600 font-medium">
+                  <div className="mt-2 text-green-300 font-semibold bg-green-500/20 rounded-xl p-2">
                     Command detected: {voice.detectedCommand.replace("_", " ")}
                   </div>
                 )}
@@ -564,8 +660,14 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
             )}
 
             {voice.confidence > 0 && !voice.isListening && (
-              <div className="absolute top-full left-0 right-0 mt-2 text-green-600 text-xs text-center bg-green-50 rounded-lg p-2 shadow-lg border border-green-200">
-                Recognition confidence: {Math.round(voice.confidence * 100)}%
+              <div className="absolute top-full left-0 right-0 mt-4 text-green-300 text-sm text-center bg-green-500/20 backdrop-blur-xl rounded-2xl p-3 shadow-xl border border-green-400/30">
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="font-medium">
+                    Recognition confidence: {Math.round(voice.confidence * 100)}
+                    %
+                  </span>
+                </div>
               </div>
             )}
           </div>
