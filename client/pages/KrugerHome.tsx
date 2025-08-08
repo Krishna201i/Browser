@@ -616,7 +616,9 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
                     <div className="p-2 bg-white/10 rounded-xl group-hover:bg-white/20 transition-colors">
                       <Search className="h-4 w-4 text-white/70 group-hover:text-white" />
                     </div>
-                    <span className="text-white/80 group-hover:text-white font-medium">{suggestion}</span>
+                    <span className="text-white/80 group-hover:text-white font-medium">
+                      {suggestion}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -661,7 +663,10 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
               <div className="absolute top-full left-0 right-0 mt-4 text-green-300 text-sm text-center bg-green-500/20 backdrop-blur-xl rounded-2xl p-3 shadow-xl border border-green-400/30">
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="font-medium">Recognition confidence: {Math.round(voice.confidence * 100)}%</span>
+                  <span className="font-medium">
+                    Recognition confidence: {Math.round(voice.confidence * 100)}
+                    %
+                  </span>
                 </div>
               </div>
             )}
