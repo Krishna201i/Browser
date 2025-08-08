@@ -414,10 +414,10 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
               <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-30 blur-sm transition-all duration-500"></div>
 
               <div className="relative search-bar-glass rounded-3xl p-6 transition-all duration-500 hover:scale-[1.02] sm:p-4">
-                {/* Search Input Section */}
-                <div className="flex items-center gap-4">
-                  {/* Search Icon */}
-                  <div className="flex-shrink-0 p-3 bg-gradient-to-r from-cyan-400/20 to-purple-400/20 rounded-2xl">
+                {/* Search Input Section - Responsive Layout */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                  {/* Search Icon - Hidden on mobile */}
+                  <div className="hidden sm:flex flex-shrink-0 p-3 bg-gradient-to-r from-cyan-400/20 to-purple-400/20 rounded-2xl transition-all duration-300 group-hover:from-cyan-400/30 group-hover:to-purple-400/30">
                     <Search className="h-6 w-6 text-white/90" />
                   </div>
 
@@ -435,31 +435,41 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
                           ? "Search with AI across multiple engines..."
                           : "Search the web or enter URL..."
                       }
-                      className="text-xl h-16 px-6 border-0 bg-white/5 rounded-2xl focus:bg-white/10 focus:ring-2 focus:ring-purple-400/50 placeholder:text-white/50 text-white font-medium transition-all duration-300 backdrop-blur-sm"
+                      className="text-xl h-16 px-6 border-0 bg-white/5 rounded-2xl focus:bg-white/15 focus:ring-2 focus:ring-purple-400/50 placeholder:text-white/50 text-white font-medium transition-all duration-300 backdrop-blur-sm hover:bg-white/8 focus:scale-[1.01] sm:text-lg"
                     />
 
                     {/* AI Enhancement Badge */}
                     {selectedEngine === "meta" && (
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <div className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1 rounded-full text-xs text-white font-medium shadow-lg">
+                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden sm:block">
+                        <div className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1 rounded-full text-xs text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                           <Zap className="h-3 w-3 animate-pulse" />
                           <span>AI Enhanced</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Mobile AI Enhancement Badge */}
+                    {selectedEngine === "meta" && (
+                      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 block sm:hidden">
+                        <div className="flex items-center gap-1 bg-gradient-to-r from-purple-500 to-pink-500 px-2 py-1 rounded-full text-xs text-white font-medium shadow-lg">
+                          <Zap className="h-3 w-3 animate-pulse" />
+                          <span className="hidden xs:inline">AI</span>
                         </div>
                       </div>
                     )}
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 self-stretch sm:self-auto">
                     {/* Voice Search Button */}
                     <Button
                       size="icon"
                       variant="ghost"
                       onClick={handleVoiceSearch}
-                      className={`h-14 w-14 rounded-2xl transition-all duration-300 border-2 ${
+                      className={`h-14 w-14 sm:h-14 sm:w-14 rounded-2xl transition-all duration-300 border-2 backdrop-blur-sm ${
                         voice.isListening
                           ? "text-red-400 animate-pulse bg-red-500/20 border-red-400/50 shadow-lg shadow-red-500/25"
-                          : "text-white/80 hover:text-white hover:bg-white/10 border-white/20 hover:border-white/40"
+                          : "text-white/80 hover:text-white hover:bg-white/10 border-white/20 hover:border-white/40 hover:scale-105"
                       } ${voice.confidence > 0.8 ? "text-green-400 bg-green-500/20 border-green-400/50" : ""}`}
                       disabled={!voice.isSupported}
                       title={
@@ -468,21 +478,22 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
                           : "Voice search not supported"
                       }
                     >
-                      <Mic className="h-6 w-6" />
+                      <Mic className="h-5 w-5 sm:h-6 sm:w-6" />
                     </Button>
 
                     {/* Search Button */}
                     <Button
                       onClick={() => handleSearch()}
-                      className={`h-14 px-8 rounded-2xl font-semibold text-lg shadow-xl transition-all duration-300 transform ${
+                      className={`h-14 px-6 sm:px-8 rounded-2xl font-semibold text-base sm:text-lg shadow-xl transition-all duration-300 transform backdrop-blur-sm flex-1 sm:flex-none ${
                         searchQuery.trim()
                           ? "bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 border-0"
                           : "bg-white/10 text-white/50 border border-white/20 cursor-not-allowed"
                       }`}
                       disabled={!searchQuery.trim()}
                     >
-                      <Search className="h-5 w-5 mr-3" />
-                      Search
+                      <Search className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+                      <span className="hidden xs:inline">Search</span>
+                      <span className="xs:hidden">Go</span>
                     </Button>
                   </div>
                 </div>
