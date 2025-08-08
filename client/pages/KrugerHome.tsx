@@ -406,11 +406,14 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
             </div>
 
             {/* Enhanced Search Bar with Modern Design */}
-            <div className="w-full max-w-4xl mx-auto mb-8 relative group">
+            <div className="w-full max-w-5xl mx-auto mb-8 relative group">
               {/* Background gradient glow effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
+              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse"></div>
 
-              <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-4 border border-white/20 shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:border-purple-400/40">
+              {/* Animated border gradient */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-30 blur-sm transition-all duration-500"></div>
+
+              <div className="relative search-bar-glass rounded-3xl p-6 transition-all duration-500 hover:scale-[1.02] sm:p-4">
                 {/* Search Input Section */}
                 <div className="flex items-center gap-4">
                   {/* Search Icon */}
