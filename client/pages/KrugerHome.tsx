@@ -407,61 +407,59 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
 
             {/* Simple Search Bar with Homepage Theme */}
             <div className="w-full max-w-2xl mb-6 relative">
-              <div className="search-bar rounded-full p-3 flex items-center gap-3 shadow-2xl bg-black/30 backdrop-blur-md border border-purple-500/30">
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 relative">
-                    <Input
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      onFocus={() =>
-                        setShowSuggestions(searchSuggestions.length > 0)
-                      }
-                      placeholder={
-                        selectedEngine === "meta"
-                          ? "Search with AI across multiple engines..."
-                          : "Search the web or enter URL..."
-                      }
-                      className="text-lg h-14 px-6 border-0 bg-transparent focus:ring-0 placeholder:text-gray-500"
-                    />
-                    {selectedEngine === "meta" && (
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Zap className="h-3 w-3 text-purple-500" />
-                          <span>AI Enhanced</span>
-                        </div>
+              <div className="search-bar rounded-full p-3 flex items-center gap-4 shadow-2xl bg-black/30 backdrop-blur-md border border-purple-500/30">
+                <div className="flex-1 relative">
+                  <Input
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    onFocus={() =>
+                      setShowSuggestions(searchSuggestions.length > 0)
+                    }
+                    placeholder={
+                      selectedEngine === "meta"
+                        ? "Search with AI across multiple engines..."
+                        : "Search the web or enter URL..."
+                    }
+                    className="text-lg h-14 px-6 border-0 bg-transparent focus:ring-0 placeholder:text-gray-500"
+                  />
+                  {selectedEngine === "meta" && (
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <Zap className="h-3 w-3 text-purple-500" />
+                        <span>AI Enhanced</span>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                </div>
 
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={handleVoiceSearch}
-                      className={`h-12 w-12 rounded-full transition-all duration-300 ${
-                        voice.isListening
-                          ? "text-red-500 animate-pulse bg-red-50 shadow-lg"
-                          : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-                      } ${voice.confidence > 0.8 ? "text-green-500 bg-green-50" : ""}`}
-                      disabled={!voice.isSupported}
-                      title={
-                        voice.isSupported
-                          ? `Advanced Voice Search (${voice.language.split("-")[0].toUpperCase()})${voice.confidence > 0 ? ` - Confidence: ${Math.round(voice.confidence * 100)}%` : ""}`
-                          : "Voice search not supported"
-                      }
-                    >
-                      <Mic className="h-5 w-5" />
-                    </Button>
-                    <Button
-                      onClick={() => handleSearch()}
-                      className="h-12 px-8 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      disabled={!searchQuery.trim()}
-                    >
-                      <Search className="h-5 w-5 mr-2" />
-                      Search
-                    </Button>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={handleVoiceSearch}
+                    className={`h-12 w-12 rounded-full transition-all duration-300 ${
+                      voice.isListening
+                        ? "text-red-500 animate-pulse bg-red-50 shadow-lg"
+                        : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+                    } ${voice.confidence > 0.8 ? "text-green-500 bg-green-50" : ""}`}
+                    disabled={!voice.isSupported}
+                    title={
+                      voice.isSupported
+                        ? `Advanced Voice Search (${voice.language.split("-")[0].toUpperCase()})${voice.confidence > 0 ? ` - Confidence: ${Math.round(voice.confidence * 100)}%` : ""}`
+                        : "Voice search not supported"
+                    }
+                  >
+                    <Mic className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    onClick={() => handleSearch()}
+                    className="h-12 px-8 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    disabled={!searchQuery.trim()}
+                  >
+                    <Search className="h-5 w-5 mr-2" />
+                    Search
+                  </Button>
                 </div>
 
                 {/* Search Engine Options (for traditional search) */}
