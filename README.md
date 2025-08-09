@@ -250,3 +250,4 @@ npm run clean         # Clean build artifacts
 
 This project is licensed under the MIT License.# Browser
 # krugerX
+# krugerX
