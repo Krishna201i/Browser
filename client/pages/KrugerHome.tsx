@@ -16,7 +16,7 @@ import {
   Star,
   BookOpen,
 } from "lucide-react";
-// import StartupAnimation from "@/components/StartupAnimation";
+import StartupAnimation from "@/components/StartupAnimation";
 // import AuthDialog from "@/components/AuthDialog";
 // import InteractiveVPN from "@/components/InteractiveVPN";
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,7 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [quickAccessOpen, setQuickAccessOpen] = useState(false);
   const [backgroundVariant] = useState<"matrix">("matrix");
-  const [showStartupAnimation, setShowStartupAnimation] = useState(false);
+  const [showStartupAnimation, setShowStartupAnimation] = useState(true);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   const voice = useVoiceRecognition();
@@ -187,7 +187,7 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
       {showStartupAnimation && (
         <StartupAnimation
           onComplete={() => {
-            console.log("KrugerHome: Received onComplete, hiding animation");
+            console.log("KrugerHome: Startup animation completed");
             setShowStartupAnimation(false);
           }}
         />
@@ -355,320 +355,236 @@ export default function KrugerHome({ onSearch }: KrugerHomeProps) {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-          {/* Kruger Logo with Chakra Effects */}
+          {/* KrugerX Logo with Enhanced Chakra Effects */}
           <div className="mb-8 text-center animate-float relative">
             <div className="relative">
-              {/* Chakra aura behind logo */}
-              <div className="absolute inset-0 text-7xl md:text-8xl font-bold text-cyan-400/30 blur-sm animate-chakra-pulse">
-                KRUGER
+              {/* Enhanced Chakra aura behind logo */}
+              <div className="absolute inset-0 text-7xl md:text-8xl font-bold text-cyan-400/20 blur-sm animate-chakra-pulse">
+                KRUGERX
               </div>
-              <div className="relative text-7xl md:text-8xl font-bold text-white mb-4 text-gradient drop-shadow-2xl">
-                KRUGER
+              <div className="absolute inset-0 text-7xl md:text-8xl font-bold text-purple-400/20 blur-sm animate-chakra-pulse" style={{ animationDelay: "0.5s" }}>
+                KRUGERX
+              </div>
+              <div className="relative text-7xl md:text-8xl font-bold text-white mb-4 text-gradient drop-shadow-2xl animate-glow">
+                KRUGERX
               </div>
             </div>
-            <div className="text-lg md:text-xl text-white/90 text-center font-light tracking-wider">
-              Privacy-First Browser
+            <div className="text-lg md:text-xl text-white/90 text-center font-light tracking-wider animate-fade-in">
+              Next-Generation Privacy Browser
+            </div>
+            <div className="text-sm text-cyan-400/80 text-center font-medium tracking-wide mt-2 animate-pulse">
+              Powered by AI • Built for Privacy
             </div>
           </div>
 
-          {/* Enhanced Search Interface */}
-          <div className="w-full max-w-3xl mb-6">
-            {/* Simple Search Engine Tabs */}
-            <div className="mb-4">
-              <div className="flex gap-2 flex-wrap justify-center">
-                <Button
-                  size="sm"
-                  variant={selectedEngine === "meta" ? "default" : "outline"}
-                  onClick={() => setSelectedEngine("meta")}
-                  className={`${
-                    selectedEngine === "meta"
-                      ? "bg-purple-600 text-white hover:bg-purple-700"
-                      : "bg-white/20 border-white/30 text-white hover:bg-white/30"
-                  }`}
-                >
-                  <Zap className="h-4 w-4 mr-2" />
-                  AI Meta Search
-                </Button>
-                <Button
-                  size="sm"
-                  variant={selectedEngine !== "meta" ? "default" : "outline"}
-                  onClick={() => setSelectedEngine("google")}
-                  className={`${
-                    selectedEngine !== "meta"
-                      ? "bg-purple-600 text-white hover:bg-purple-700"
-                      : "bg-white/20 border-white/30 text-white hover:bg-white/30"
-                  }`}
-                >
-                  <Globe className="h-4 w-4 mr-2" />
-                  Traditional Search
-                </Button>
-              </div>
-            </div>
-
-            {/* Simple Search Bar with Homepage Theme */}
-            <div className="w-full max-w-2xl mb-6 relative">
-              <div className="search-bar rounded-full p-3 flex items-center gap-3 shadow-2xl bg-black/30 backdrop-blur-md border border-purple-500/30">
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 relative">
-                    <Input
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      onFocus={() =>
-                        setShowSuggestions(searchSuggestions.length > 0)
-                      }
-                      placeholder={
-                        selectedEngine === "meta"
-                          ? "Search with AI across multiple engines..."
-                          : "Search the web or enter URL..."
-                      }
-                      className="text-lg h-14 px-6 border-0 bg-transparent focus:ring-0 placeholder:text-gray-500"
-                    />
-                    {selectedEngine === "meta" && (
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Zap className="h-3 w-3 text-purple-500" />
-                          <span>AI Enhanced</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={handleVoiceSearch}
-                      className={`h-12 w-12 rounded-full transition-all duration-300 ${
-                        voice.isListening
-                          ? "text-red-500 animate-pulse bg-red-50 shadow-lg"
-                          : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-                      } ${voice.confidence > 0.8 ? "text-green-500 bg-green-50" : ""}`}
-                      disabled={!voice.isSupported}
-                      title={
-                        voice.isSupported
-                          ? `Advanced Voice Search (${voice.language.split("-")[0].toUpperCase()})${voice.confidence > 0 ? ` - Confidence: ${Math.round(voice.confidence * 100)}%` : ""}`
-                          : "Voice search not supported"
-                      }
-                    >
-                      <Mic className="h-5 w-5" />
-                    </Button>
-                    <Button
-                      onClick={() => handleSearch()}
-                      className="h-12 px-8 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      disabled={!searchQuery.trim()}
-                    >
-                      <Search className="h-5 w-5 mr-2" />
-                      Search
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Search Engine Options (for traditional search) */}
-                {selectedEngine !== "meta" && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex gap-2 flex-wrap justify-center">
-                      {searchEngines
-                        .filter((engine) => engine.id !== "meta")
-                        .map((engine) => (
-                          <Button
-                            key={engine.id}
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => setSelectedEngine(engine.id)}
-                            className={`rounded-full px-4 py-2 transition-all duration-200 ${
-                              selectedEngine === engine.id
-                                ? "bg-gray-900 text-white shadow-md"
-                                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                            }`}
-                          >
-                            <div
-                              className={`w-2 h-2 rounded-full ${engine.color} mr-2`}
-                            ></div>
-                            {engine.name}
-                          </Button>
-                        ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* AI Search Features (for meta search) */}
-                {selectedEngine === "meta" && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex items-center justify-center gap-8 text-sm text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-orange-500" />
-                        <span>Wikipedia</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Shield className="h-4 w-4 text-orange-600" />
-                        <span>Brave</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-green-500" />
-                        <span>DuckDuckGo</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Search className="h-4 w-4 text-blue-500" />
-                        <span>Google</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Search Suggestions */}
-            {showSuggestions && searchSuggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border max-h-48 overflow-y-auto z-50">
-                {searchSuggestions.slice(0, 6).map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSearch(suggestion)}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-3 border-b border-gray-100 last:border-b-0"
+          {/* Modern Enhanced Search Bar */}
+          <div className="w-full max-w-4xl mx-auto mb-8 relative">
+            {/* Animated background glow */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-pink-400/20 rounded-3xl blur-2xl opacity-60 animate-pulse"></div>
+            
+            {/* Main search container */}
+            <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20 shadow-2xl">
+              {/* Search Engine Selector */}
+              <div className="flex justify-center mb-6">
+                <div className="inline-flex bg-black/20 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-xl">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setSelectedEngine("meta")}
+                    className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      selectedEngine === "meta"
+                        ? "bg-gradient-to-r from-emerald-400 to-cyan-500 text-white shadow-lg transform scale-105"
+                        : "text-white/70 hover:text-white hover:bg-white/10"
+                    }`}
                   >
-                    <Search className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">{suggestion}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Advanced Voice Recognition Status */}
-            {voice.error && (
-              <div className="absolute top-full left-0 right-0 mt-2 text-red-400 text-sm text-center bg-white/95 rounded-lg p-3 shadow-lg border border-red-200">
-                {voice.error}
-              </div>
-            )}
-
-            {voice.isListening && (
-              <div className="absolute top-full left-0 right-0 mt-2 text-blue-600 text-sm text-center bg-white/95 rounded-lg p-3 animate-pulse shadow-lg border border-blue-200">
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                  <span>
-                    🎤 Listening in {voice.language.split("-")[0].toUpperCase()}
-                    ...
-                  </span>
+                    <Zap className="h-4 w-4 mr-2" />
+                    AI Meta Search
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setSelectedEngine("google")}
+                    className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      selectedEngine !== "meta"
+                        ? "bg-gradient-to-r from-blue-400 to-purple-500 text-white shadow-lg transform scale-105"
+                        : "text-white/70 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <Globe className="h-4 w-4 mr-2" />
+                    Traditional Search
+                  </Button>
                 </div>
-                {voice.interimResults && (
-                  <div className="mt-2 text-gray-600 italic">
-                    "{voice.interimResults}"
+              </div>
+
+              {/* Enhanced Search Input */}
+              <div className="relative group">
+                {/* Search icon */}
+                <div className="absolute left-6 top-1/2 transform -translate-y-1/2 z-10">
+                  <Search className="h-6 w-6 text-white/60 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                </div>
+
+                {/* Main input */}
+                <Input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  onFocus={() => setShowSuggestions(searchSuggestions.length > 0)}
+                  placeholder={
+                    selectedEngine === "meta"
+                      ? "Ask anything, search everything with AI..."
+                      : "Search the web or enter URL..."
+                  }
+                  className="w-full h-16 pl-16 pr-40 text-xl bg-white/5 backdrop-blur-sm border-2 border-white/20 rounded-2xl text-white placeholder:text-white/50 focus:border-cyan-400/50 focus:ring-4 focus:ring-cyan-400/20 transition-all duration-300"
+                />
+
+                {/* AI Enhanced indicator */}
+                {selectedEngine === "meta" && (
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <div className="flex items-center gap-2 text-xs text-cyan-400 bg-cyan-400/10 px-3 py-1 rounded-full">
+                      <Zap className="h-3 w-3" />
+                      <span className="font-medium">AI Enhanced</span>
+                    </div>
                   </div>
                 )}
-                {voice.detectedCommand && (
-                  <div className="mt-1 text-green-600 font-medium">
-                    Command detected: {voice.detectedCommand.replace("_", " ")}
+
+                {/* Action buttons */}
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2 md:gap-3">
+                  {/* Voice search button */}
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={handleVoiceSearch}
+                    className={`h-10 w-10 md:h-12 md:w-12 rounded-2xl transition-all duration-300 ${
+                      voice.isListening
+                        ? "bg-red-500/20 text-red-400 animate-pulse border-2 border-red-400/50"
+                        : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border-2 border-white/10"
+                    } ${voice.confidence > 0.8 ? "text-green-400 bg-green-400/20" : ""}`}
+                    disabled={!voice.isSupported}
+                    title={
+                      voice.isSupported
+                        ? `Voice Search (${voice.language.split("-")[0].toUpperCase()})${voice.confidence > 0 ? ` - Confidence: ${Math.round(voice.confidence * 100)}%` : ""}`
+                        : "Voice search not supported"
+                    }
+                  >
+                    <Mic className="h-4 w-4 md:h-5 md:w-5" />
+                  </Button>
+
+                  {/* Search button */}
+                  <Button
+                    onClick={() => handleSearch()}
+                    disabled={!searchQuery.trim()}
+                    className="h-10 px-6 md:h-12 md:px-8 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none focus:ring-4 focus:ring-emerald-400/30"
+                  >
+                    <Search className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
+                    <span className="hidden sm:inline">GO</span>
+                    <span className="sm:hidden">→</span>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Search suggestions dropdown */}
+              {showSuggestions && searchSuggestions.length > 0 && (
+                <div className="mt-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setSearchQuery(suggestion);
+                        handleSearch(suggestion);
+                      }}
+                      className="w-full px-6 py-4 text-left text-white hover:bg-white/10 transition-colors duration-200 flex items-center gap-3"
+                    >
+                      <Search className="h-4 w-4 text-white/50" />
+                      <span>{suggestion}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Search Engine Options (for traditional search) */}
+              {selectedEngine !== "meta" && (
+                <div className="mt-6 pt-6 border-t border-white/20">
+                  <div className="flex gap-3 flex-wrap justify-center">
+                    {searchEngines
+                      .filter((engine) => engine.id !== "meta")
+                      .map((engine) => (
+                        <Button
+                          key={engine.id}
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setSelectedEngine(engine.id)}
+                          className={`rounded-full px-4 py-2 transition-all duration-200 ${
+                            selectedEngine === engine.id
+                              ? "bg-white/20 text-white shadow-md border border-white/30"
+                              : "text-white/70 hover:text-white hover:bg-white/10"
+                          }`}
+                        >
+                          <div
+                            className={`w-2 h-2 rounded-full ${engine.color} mr-2`}
+                          ></div>
+                          {engine.name}
+                        </Button>
+                      ))}
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
 
-            {voice.confidence > 0 && !voice.isListening && (
-              <div className="absolute top-full left-0 right-0 mt-2 text-green-600 text-xs text-center bg-green-50 rounded-lg p-2 shadow-lg border border-green-200">
-                Recognition confidence: {Math.round(voice.confidence * 100)}%
-              </div>
-            )}
-          </div>
-
-          {/* Enhanced Real-time Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 w-full max-w-6xl mb-8">
-            {/* Trackers Blocked Card */}
-            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-xl border border-red-300/20 hover:border-red-300/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative p-4 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-500/20 backdrop-blur-sm mb-3 group-hover:bg-red-500/30 transition-colors duration-300">
-                  <Shield className="h-6 w-6 text-red-400 group-hover:text-red-300 transition-colors duration-300" />
+              {/* AI Search Features (for meta search) */}
+              {selectedEngine === "meta" && (
+                <div className="mt-6 pt-6 border-t border-white/20">
+                  <div className="flex items-center justify-center gap-8 text-sm text-white/70">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="h-4 w-4 text-orange-400" />
+                      <span>Multi-Source</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-400" />
+                      <span>Privacy-First</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-cyan-400" />
+                      <span>AI-Powered</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-2xl font-bold text-white mb-1 group-hover:text-red-100 transition-colors duration-300">
-                  {stats.trackersBlocked.toLocaleString()}
-                </div>
-                <div className="text-xs text-red-200/80 font-medium uppercase tracking-wider">
-                  Trackers Blocked
-                </div>
-                <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
-              </div>
-            </div>
-
-            {/* Bandwidth Saved Card */}
-            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-xl border border-emerald-300/20 hover:border-emerald-300/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative p-4 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 backdrop-blur-sm mb-3 group-hover:bg-emerald-500/30 transition-colors duration-300">
-                  <Zap className="h-6 w-6 text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300" />
-                </div>
-                <div className="text-2xl font-bold text-white mb-1 group-hover:text-emerald-100 transition-colors duration-300">
-                  {stats.bandwidthSaved}
-                </div>
-                <div className="text-xs text-emerald-200/80 font-medium uppercase tracking-wider">
-                  Bandwidth Saved
-                </div>
-                <div
-                  className="absolute top-2 right-2 w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.5s" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Time Saved Card */}
-            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-xl border border-blue-300/20 hover:border-blue-300/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative p-4 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 backdrop-blur-sm mb-3 group-hover:bg-blue-500/30 transition-colors duration-300">
-                  <Clock className="h-6 w-6 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
-                </div>
-                <div className="text-2xl font-bold text-white mb-1 group-hover:text-blue-100 transition-colors duration-300">
-                  {stats.timeSaved}
-                </div>
-                <div className="text-xs text-blue-200/80 font-medium uppercase tracking-wider">
-                  Time Saved
-                </div>
-                <div
-                  className="absolute top-2 right-2 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "1s" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Active Users Card */}
-            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 backdrop-blur-xl border border-purple-300/20 hover:border-purple-300/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative p-4 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 backdrop-blur-sm mb-3 group-hover:bg-purple-500/30 transition-colors duration-300">
-                  <Users className="h-6 w-6 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" />
-                </div>
-                <div className="text-2xl font-bold text-white mb-1 group-hover:text-purple-100 transition-colors duration-300">
-                  {stats.activeUsers.toLocaleString()}
-                </div>
-                <div className="text-xs text-purple-200/80 font-medium uppercase tracking-wider">
-                  Active Users
-                </div>
-                <div
-                  className="absolute top-2 right-2 w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "1.5s" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Sites Visited Card */}
-            <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-500/20 to-yellow-500/20 backdrop-blur-xl border border-orange-300/20 hover:border-orange-300/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative p-4 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-500/20 backdrop-blur-sm mb-3 group-hover:bg-orange-500/30 transition-colors duration-300">
-                  <Globe className="h-6 w-6 text-orange-400 group-hover:text-orange-300 transition-colors duration-300" />
-                </div>
-                <div className="text-2xl font-bold text-white mb-1 group-hover:text-orange-100 transition-colors duration-300">
-                  {stats.sitesVisited.toLocaleString()}
-                </div>
-                <div className="text-xs text-orange-200/80 font-medium uppercase tracking-wider">
-                  Sites Visited
-                </div>
-                <div
-                  className="absolute top-2 right-2 w-1.5 h-1.5 bg-orange-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "2s" }}
-                ></div>
-              </div>
+              )}
             </div>
           </div>
+
+          {/* Advanced Voice Recognition Status */}
+          {voice.error && (
+            <div className="absolute top-full left-0 right-0 mt-2 text-red-400 text-sm text-center bg-white/95 rounded-lg p-3 shadow-lg border border-red-200">
+              {voice.error}
+            </div>
+          )}
+
+          {voice.isListening && (
+            <div className="absolute top-full left-0 right-0 mt-2 text-blue-600 text-sm text-center bg-white/95 rounded-lg p-3 animate-pulse shadow-lg border border-blue-200">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                <span>
+                  🎤 Listening in {voice.language.split("-")[0].toUpperCase()}
+                  ...
+                </span>
+              </div>
+              {voice.interimResults && (
+                <div className="mt-2 text-gray-600 italic">
+                  "{voice.interimResults}"
+                </div>
+              )}
+              {voice.detectedCommand && (
+                <div className="mt-1 text-green-600 font-medium">
+                  Command detected: {voice.detectedCommand.replace("_", " ")}
+                </div>
+              )}
+            </div>
+          )}
+
+          {voice.confidence > 0 && !voice.isListening && (
+            <div className="absolute top-full left-0 right-0 mt-2 text-green-600 text-xs text-center bg-green-50 rounded-lg p-2 shadow-lg border border-green-200">
+              Recognition confidence: {Math.round(voice.confidence * 100)}%
+            </div>
+          )}
         </div>
 
         {/* Theme Name - Bottom Left Corner */}

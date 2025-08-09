@@ -14,12 +14,12 @@
     --background: 210 20% 98%;
     --foreground: 210 40% 8%;
 
-    /* Kruger brand colors */
-    --kruger-primary: 217 91% 60%;
-    --kruger-primary-foreground: 0 0% 100%;
-    --kruger-secondary: 210 40% 96%;
-    --kruger-accent: 142 76% 36%;
-    --kruger-accent-hover: 142 76% 32%;
+    /* KrugerX brand colors */
+--kruger-primary: 217 91% 60%;
+--kruger-primary-foreground: 0 0% 100%;
+--kruger-secondary: 210 40% 96%;
+--kruger-accent: 142 76% 36%;
+--kruger-accent-hover: 142 76% 32%;
 
     /* Browser UI colors */
     --browser-toolbar: 210 20% 96%;
@@ -700,5 +700,49 @@
 
   .high-contrast .border {
     border-color: #000 !important;
+  }
+
+  /* KrugerX Enhanced Animations */
+  @keyframes glow {
+    0%, 100% {
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    }
+    50% {
+      text-shadow: 0 0 30px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.6);
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out;
+  }
+
+  /* Draggable Tabs Styles */
+  .dragging {
+    cursor: grabbing !important;
+  }
+
+  .dragging * {
+    cursor: grabbing !important;
+  }
+
+  .tab-drag-preview {
+    opacity: 0.8;
+    transform: rotate(5deg);
+    z-index: 1000;
   }
 }

@@ -13,6 +13,16 @@ A privacy-first browser application built with React, TypeScript, Express, and m
 - **VPN Integration** with server selection and connection management
 - **Responsive Design** with mobile, tablet, and desktop support
 
+### Advanced Browser Features
+- **Gesture Control** - Touch gestures for mobile devices (swipe, pinch, double-tap)
+- **Performance Monitor** - Real-time FPS, memory, CPU, and network monitoring
+- **Autofill Manager** - Secure password, address, and payment information storage
+- **Security Dashboard** - Comprehensive security metrics and threat protection
+- **Advanced Keyboard Shortcuts** - Multiple schemes (Default, Vim, Emacs) with custom shortcuts
+- **Enhanced WebView** - Anti-frame-busting, proxy support, and security headers
+- **Voice Recognition** - Multi-language voice commands and AI interaction
+- **Accessibility Features** - High contrast, large text, reduced motion, screen reader support
+
 ### Backend
 - **Express.js** server with TypeScript
 - **Authentication** with JWT tokens and bcrypt password hashing
@@ -32,6 +42,9 @@ A privacy-first browser application built with React, TypeScript, Express, and m
 - Framer Motion for animations
 - React Query for state management
 - React Router for navigation
+- Web Speech API for voice recognition
+- Performance API for monitoring
+- Web Workers for background processing
 
 ### Backend
 - Express.js with TypeScript
@@ -236,3 +249,4 @@ npm run clean         # Clean build artifacts
 ## 📄 License
 
 This project is licensed under the MIT License.# Browser
+# krugerX

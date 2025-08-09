@@ -71,6 +71,7 @@ import BookmarkManager from "./BookmarkManager";
 import KrugerAI from "./KrugerAI";
 import UnifiedSettings from "./UnifiedSettings";
 import HistoryManager from "./HistoryManager";
+import FirebaseAuth from "./FirebaseAuth";
 
 interface Tab {
   id: string;
@@ -476,6 +477,9 @@ export default function BrowserToolbar({
           <Eye className="h-4 w-4" />
         </Button>
 
+        {/* Firebase Authentication */}
+        <FirebaseAuth />
+
         <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
           <SheetTrigger asChild>
             <Button
@@ -491,7 +495,7 @@ export default function BrowserToolbar({
             <SheetHeader>
               <SheetTitle className="flex items-center gap-2 text-xl">
                 <Settings className="h-5 w-5" />
-                Kruger Browser Settings
+                KrugerX Browser Settings
               </SheetTitle>
               <SheetDescription>
                 Customize your Kruger browser experience - Settings are
@@ -973,7 +977,7 @@ export default function BrowserToolbar({
                       Version: 2.1.0 (Matrix Edition)
                     </p>
                     <p>🛡️ Built with privacy and performance in mind</p>
-                    <p>📅 © 2024 Kruger Browser</p>
+                    <p>📅 © 2024 KrugerX Browser</p>
                     <p className="text-xs font-mono">
                       🌐 Matrix-level security & ninja performance
                     </p>

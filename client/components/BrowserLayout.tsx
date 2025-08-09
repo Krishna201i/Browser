@@ -1,12 +1,18 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import BrowserToolbar from "./BrowserToolbar";
+import DraggableTabs from "./DraggableTabs";
 import KrugerHome from "@/pages/KrugerHome";
 import IncognitoHome from "@/pages/IncognitoHome";
 import NewsSection from "./NewsSection";
 import WebView from "./WebView";
 import APIWebView from "./APIWebView";
+import EnhancedWebView from "./EnhancedWebView";
 import MetaSearchPage from "@/pages/MetaSearchPage";
+import GestureControl from "./GestureControl";
+import PerformanceMonitor from "./PerformanceMonitor";
+import AutofillManager from "./AutofillManager";
+import SecurityDashboard from "./SecurityDashboard";
 import { useBrowserHistory } from "@/hooks/use-browser-history";
 import { useRealStats } from "@/hooks/use-real-stats";
 import { useMetaSearch } from "@/hooks/use-meta-search";
@@ -14,6 +20,8 @@ import { useMostVisited } from "@/hooks/use-most-visited";
 import { useDownloads } from "@/hooks/use-downloads";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 import { useBrowserSettings } from "@/hooks/use-browser-settings";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { firebaseService } from "@/services/firebase-service";
 
 interface Tab {
   id: string;
@@ -22,16 +30,18 @@ interface Tab {
   isActive: boolean;
   isIncognito?: boolean;
   content: "home" | "incognito-home" | "news" | "web";
+  position?: number;
 }
 
 export default function BrowserLayout() {
   const [tabs, setTabs] = useState<Tab[]>([
     {
       id: "home",
-      title: "Kruger Home",
+      title: "KrugerX Home",
       url: "kruger://home",
       isActive: true,
       content: "home",
+      position: 0,
     },
   ]);
 
@@ -42,6 +52,7 @@ export default function BrowserLayout() {
   const { startDownload } = useDownloads();
   const { addBookmark, isBookmarked } = useBookmarks();
   const browserSettings = useBrowserSettings();
+  const keyboardShortcuts = useKeyboardShortcuts();
 
   // Sync browser theme with system
   useEffect(() => {
@@ -108,6 +119,44 @@ export default function BrowserLayout() {
     history.addEntry(searchUrl, isUrl ? new URL(searchUrl).hostname : query);
   };
 
+  // Firebase sync
+  useEffect(() => {
+    const syncTabsToFirebase = async () => {
+      try {
+        await firebaseService.saveTabs(tabs.map(tab => ({
+          ...tab,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })));
+      } catch (error) {
+        console.error('Failed to sync tabs to Firebase:', error);
+      }
+    };
+
+    if (tabs.length > 0) {
+      syncTabsToFirebase();
+    }
+  }, [tabs]);
+
+  // Load tabs from Firebase on mount
+  useEffect(() => {
+    const loadTabsFromFirebase = async () => {
+      try {
+        const firebaseTabs = await firebaseService.getTabs();
+        if (firebaseTabs.length > 0) {
+          setTabs(firebaseTabs.map(tab => ({
+            ...tab,
+            content: tab.content as "home" | "incognito-home" | "news" | "web"
+          })));
+        }
+      } catch (error) {
+        console.error('Failed to load tabs from Firebase:', error);
+      }
+    };
+
+    loadTabsFromFirebase();
+  }, []);
+
   const handleNewTab = () => {
     const newTab: Tab = {
       id: `tab-${Date.now()}`,
@@ -115,6 +164,7 @@ export default function BrowserLayout() {
       url: "kruger://home",
       isActive: false,
       content: "home",
+      position: tabs.length,
     };
 
     setTabs((prev) => [
@@ -131,6 +181,7 @@ export default function BrowserLayout() {
       isActive: false,
       isIncognito: true,
       content: "incognito-home",
+      position: tabs.length,
     };
 
     setTabs((prev) => [
@@ -147,10 +198,11 @@ export default function BrowserLayout() {
         return [
           {
             id: "home",
-            title: "Kruger Home",
+            title: "KrugerX Home",
             url: "kruger://home",
             isActive: true,
             content: "home",
+            position: 0,
           },
         ];
       }
@@ -168,6 +220,10 @@ export default function BrowserLayout() {
 
       return filtered;
     });
+  };
+
+  const handleTabReorder = (reorderedTabs: Tab[]) => {
+    setTabs(reorderedTabs);
   };
 
   const handleSwitchTab = (id: string) => {
@@ -278,7 +334,7 @@ export default function BrowserLayout() {
         );
       case "web":
         return (
-          <APIWebView
+          <EnhancedWebView
             url={activeTab.url}
             isIncognito={activeTab.isIncognito}
             onUrlChange={(newUrl) => {
@@ -300,11 +356,6 @@ export default function BrowserLayout() {
                   tab.id === activeTab.id ? { ...tab, title } : tab,
                 ),
               );
-            }}
-            onDownload={(filename, url) => {
-              // Simulate download - in real app this would trigger actual download
-              console.log(`Downloading: ${filename} from ${url}`);
-              // Could integrate with the download manager here
             }}
           />
         );
@@ -331,27 +382,72 @@ export default function BrowserLayout() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-background">
-      <BrowserToolbar
-        tabs={tabs}
-        onNewTab={handleNewTab}
-        onCloseTab={handleCloseTab}
-        onSwitchTab={handleSwitchTab}
-        onNewIncognitoTab={handleNewIncognitoTab}
-        onGoBack={handleGoBack}
-        onGoForward={handleGoForward}
-        onUndo={handleUndo}
-        onRedo={handleRedo}
-        canGoBack={history.canGoBack}
-        canGoForward={history.canGoForward}
-        canUndo={history.canUndo}
-        canRedo={history.canRedo}
-        onSearch={handleSearch}
-        onNavigate={handleNavigateFromAI}
-        onBookmark={handleBookmark}
-      />
+    <GestureControl
+      onSwipeLeft={() => {
+        if (history.canGoBack) handleGoBack();
+      }}
+      onSwipeRight={() => {
+        if (history.canGoForward) handleGoForward();
+      }}
+      onPinchIn={() => {
+        const newZoom = Math.max(75, browserSettings.settings.zoomLevel - 10);
+        browserSettings.updateSetting("zoomLevel", newZoom);
+      }}
+      onPinchOut={() => {
+        const newZoom = Math.min(200, browserSettings.settings.zoomLevel + 10);
+        browserSettings.updateSetting("zoomLevel", newZoom);
+      }}
+      onDoubleTap={() => {
+        browserSettings.updateSetting("zoomLevel", 100);
+      }}
+      enabled={browserSettings.settings.gestureControl}
+    >
+      <div className="h-screen flex flex-col bg-background">
+        {/* Draggable Tabs */}
+        <DraggableTabs
+          tabs={tabs}
+          onTabSwitch={handleSwitchTab}
+          onTabClose={handleCloseTab}
+          onNewTab={handleNewTab}
+          onTabReorder={handleTabReorder}
+        />
 
-      <div className="flex-1 overflow-hidden">{renderTabContent()}</div>
-    </div>
+        {/* Browser Toolbar */}
+        <BrowserToolbar
+          tabs={tabs}
+          onNewTab={handleNewTab}
+          onCloseTab={handleCloseTab}
+          onSwitchTab={handleSwitchTab}
+          onNewIncognitoTab={handleNewIncognitoTab}
+          onGoBack={handleGoBack}
+          onGoForward={handleGoForward}
+          onUndo={handleUndo}
+          onRedo={handleRedo}
+          canGoBack={history.canGoBack}
+          canGoForward={history.canGoForward}
+          canUndo={history.canUndo}
+          canRedo={history.canRedo}
+          onSearch={handleSearch}
+          onNavigate={handleNavigateFromAI}
+          onBookmark={handleBookmark}
+        />
+
+        <div className="flex-1 overflow-hidden">{renderTabContent()}</div>
+        
+        {/* Advanced Features */}
+        <PerformanceMonitor />
+        <AutofillManager />
+        <SecurityDashboard />
+        
+        {/* Keyboard Shortcut Feedback */}
+        {keyboardShortcuts.showShortcutFeedback && (
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+            <div className="bg-background/95 backdrop-blur-sm border rounded-lg px-4 py-2 shadow-lg">
+              <span className="text-sm font-medium">{keyboardShortcuts.feedbackMessage}</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </GestureControl>
   );
 }

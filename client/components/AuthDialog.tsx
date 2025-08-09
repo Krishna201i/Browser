@@ -154,7 +154,7 @@ export default function AuthDialog({ isOpen, onOpenChange }: AuthDialogProps) {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-bold bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">
-            Welcome to Kruger
+            Welcome to KrugerX
           </DialogTitle>
           <DialogDescription className="text-center">
             Your privacy-first browser experience awaits

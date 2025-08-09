@@ -78,7 +78,7 @@ export function createServer() {
   app.post("/api/bookmarks", ...bookmarkRoutes.createBookmark);
   app.put("/api/bookmarks/:id", ...bookmarkRoutes.updateBookmark);
   app.delete("/api/bookmarks/:id", bookmarkRoutes.deleteBookmark);
-  app.post("/api/bookmarks/:id/favorite", bookmarkRoutes.toggleFavorite);
+  app.post("/api/bookmarks/:id/toggle-favorite", bookmarkRoutes.toggleFavorite);
   app.post("/api/bookmarks/folders", bookmarkRoutes.createFolder);
   app.delete("/api/bookmarks/folders/:id", bookmarkRoutes.deleteFolder);
   

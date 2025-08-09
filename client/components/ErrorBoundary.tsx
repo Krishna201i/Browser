@@ -31,7 +31,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-950 flex items-center justify-center">
             <div className="text-center text-white p-8">
               <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                KRUGER
+                KRUGERX
               </h1>
               <p className="text-xl mb-4">Initializing...</p>
               <div className="w-64 h-1 bg-gray-800 rounded-full mx-auto">

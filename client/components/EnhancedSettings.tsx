@@ -120,7 +120,7 @@ export default function EnhancedSettings({
               <Settings className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-xl font-bold">Kruger Browser Settings</div>
+                              <div className="text-xl font-bold">KrugerX Browser Settings</div>
               <div className="text-sm text-muted-foreground font-normal">
                 Matrix Edition v2.1.0
               </div>
